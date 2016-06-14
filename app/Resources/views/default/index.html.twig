@@ -11,20 +11,22 @@
             {{ form_widget(form.tags, {'attr': {'class': 'form-control', 'placeholder': 'Search tags separated by coma'}}) }}
         </div>
 
-        {% if token == null %}
-            <button data-url="{{ path('ajax_getAuthUrl') }}" id="getToken" type="button" >Get Token</button>
-        {% else %}
+        {#{% if token == null %}#}
+            {#<button data-url="{{ path('ajax_getAuthUrl') }}" id="getToken" type="button" >Get Token</button>#}
+        {#{% else %}#}
             <button type="submit" >Search Videos</button>
-        {% endif %}
+        {#{% endif %}#}
 
     {{ form_end(form) }}
 
     <hr/>
 
     <div class="row">
-        <div class="col-md-4">.col-md-4</div>
-        <div class="col-md-4">.col-md-4</div>
-        <div class="col-md-4">.col-md-4</div>
+        <div id="tags" class="col-md-4">
+            {% include 'YouTube/tagsRows.html.twig' with {'tags': tags} %}
+        </div>
+        <div id="tag" class="col-md-4"></div>
+        <div id="videos" class="col-md-4"></div>
     </div>
 
 {% endblock %}

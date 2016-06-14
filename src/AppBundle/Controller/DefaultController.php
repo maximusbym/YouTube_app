@@ -17,20 +17,12 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $form = $this->createForm(TagsType::class);
-        $form->handleRequest($request);
-        if ($form->isValid()) {
-            $data = $form->getData();
-
-//            $this->get('app.comments_manager')->saveComment($data);
-
-            unset($form);
-            $form = $this->createForm(TagsType::class);
-        }
-
-//        var_dump($request->getSession()->remove('youtube_token'));
+        $tags = $this->getDoctrine()->getRepository('AppBundle:Tag')->findAll();
         
         return $this->render('default/index.html.twig', [
-            'form' => $form->createView(), 'token' => $request->getSession()->has('youtube_token')
+            'form' => $form->createView(), 
+//            'token' => $request->getSession()->has('youtube_token'),
+            'tags' => $tags
         ]);
     }
     
@@ -49,16 +41,15 @@ class DefaultController extends Controller
             $youTubeSearcher = $this->get('app.youtube_search');
             $tags = $youTubeSearcher->searchTags($data['tags']);
 
-            echo $tags[0]['error'];
-
-//            var_dump($tags);
-//            $this->get('app.comments_manager')->saveComment($data);
-
+            $youTubeDBManager = $this->get('app.youtube_dbmanager');
+            $tags = $youTubeDBManager->updateTags($tags);
+            
         }
 
-        $response = new JsonResponse();
+        $template = $this->render('YouTube/tagsRows.html.twig', array('tags'=>$tags))->getContent();
 
-        $response->setData( array( 'data' => $tags ) );
+        $response = new JsonResponse();
+        $response->setData( array( 'newTagsTemplate' => $template ) );
 
         return $response;
     }

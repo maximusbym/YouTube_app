@@ -1,0 +1,3 @@
+{% for tag in tags %}
+<a href="#" data-url="{{ path('ajax_getTagData',{id: tag.getId}) }}">{{ tag.getTitle }}</a><br/><br/>
+{% endfor %}

@@ -15,13 +15,13 @@ class Tag
 {
 
     /**
-     * @ORM\OneToMany(targetEntity="Video", mappedBy="Tag")
+     * @ORM\OneToMany(targetEntity="Video", mappedBy="tag")
      */
     private $videos;
 
     public function __construct()
     {
-        $this->comments = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
     
     /**
@@ -50,7 +50,7 @@ class Tag
     /**
      * @var string
      *
-     * @ORM\Column(name="avgrating", type="decimal", precision=5, scale=2)
+     * @ORM\Column(name="avgrating", type="decimal", precision=12, scale=2)
      */
     private $AVGRating;
     
@@ -86,30 +86,6 @@ class Tag
     public function getTitle()
     {
         return $this->title;
-    }
-
-    /**
-     * Set resualtsCount
-     *
-     * @param integer $resualtsCount
-     *
-     * @return Tag
-     */
-    public function setResualtsCount($resualtsCount)
-    {
-        $this->resualtsCount = $resualtsCount;
-
-        return $this;
-    }
-
-    /**
-     * Get resualtsCount
-     *
-     * @return int
-     */
-    public function getResualtsCount()
-    {
-        return $this->resualtsCount;
     }
 
     /**

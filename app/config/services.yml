@@ -10,3 +10,6 @@ services:
     app.youtube_search:
         class: AppBundle\YouTube\YouTubeSearcher
         arguments: ["%google_api_key%", "%google_client_secret_path%", "@request_stack"]
+    app.youtube_dbmanager:
+        class: AppBundle\YouTube\YouTubeDBManager
+        arguments: ["@doctrine.orm.entity_manager"]

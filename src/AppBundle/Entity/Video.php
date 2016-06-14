@@ -51,8 +51,8 @@ class Video
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Tag", inversedBy="Video")
-     * @ORM\JoinColumn(name="tag_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Tag", inversedBy="video", cascade={"remove"})
+     * @ORM\JoinColumn(name="tag_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $tag;
     
