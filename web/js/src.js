@@ -14,5 +14,18 @@ $(document).ready( function () {
 
         },'JSON');
     });
+    
+    $('#getToken').click(function (e) {
+        e.preventDefault();
+        var url = $(this).data('url');
+        $.get(url, function(response){
+
+            if( response.url ) {
+                document.location.href = response.url;
+            }
+            // console.log(response);
+
+        },'JSON');
+    });
 
 } );

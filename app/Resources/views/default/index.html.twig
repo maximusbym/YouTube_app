@@ -11,7 +11,12 @@
             {{ form_widget(form.tags, {'attr': {'class': 'form-control', 'placeholder': 'Search tags separated by coma'}}) }}
         </div>
 
-        <button type="submit" >Search Videos</button>
+        {% if token == null %}
+            <button data-url="{{ path('ajax_getAuthUrl') }}" id="getToken" type="button" >Get Token</button>
+        {% else %}
+            <button type="submit" >Search Videos</button>
+        {% endif %}
+
     {{ form_end(form) }}
 
     <hr/>

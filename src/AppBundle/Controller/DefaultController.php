@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Form\TagsType;
-use AppBundle\Utils\YouTubeSearcher;
+use AppBundle\YouTube\YouTubeSearcher;
 
 class DefaultController extends Controller
 {
@@ -27,8 +27,10 @@ class DefaultController extends Controller
             $form = $this->createForm(TagsType::class);
         }
 
+//        var_dump($request->getSession()->remove('youtube_token'));
+        
         return $this->render('default/index.html.twig', [
-            'form' => $form->createView(),
+            'form' => $form->createView(), 'token' => $request->getSession()->has('youtube_token')
         ]);
     }
     
@@ -44,14 +46,12 @@ class DefaultController extends Controller
         if ($form->isValid()) {
             $data = $form->getData();
 
-            $apiKey = $this->getParameter('google_api_key');
-            $clientSecretPath = $request->server->get('DOCUMENT_ROOT') . "/.." . $this->getParameter('google_client_secret_path');
-            $youTubeSearcher = new YouTubeSearcher($apiKey, $clientSecretPath);
+            $youTubeSearcher = $this->get('app.youtube_search');
             $tags = $youTubeSearcher->searchTags($data['tags']);
 
-            echo $tags['error'];
+            echo $tags[0]['error'];
 
-            var_dump($tags);
+//            var_dump($tags);
 //            $this->get('app.comments_manager')->saveComment($data);
 
         }
